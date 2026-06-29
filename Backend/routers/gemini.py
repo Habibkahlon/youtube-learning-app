@@ -43,8 +43,10 @@ def build_context(transcripts, videos):
 async def generate_roadmap(req: RoadmapRequest):
     try:
         context = build_context(req.transcripts, req.videos)
-        if not context:
-            raise HTTPException(status_code=400, detail="No transcripts available")
+if not context:
+    context = "\n".join([f"- {v.get('title','')}" for v in req.videos])
+    if not context:
+        raise HTTPException(status_code=400, detail="No video data available")
 
         prompt = f"""You are an expert learning coach. Based on the YouTube video transcripts below about "{req.topic}", create a comprehensive structured learning roadmap.
 
