@@ -1,0 +1,10 @@
+backend/.env
+backend/venv/
+backend/__pycache__/
+backend/routers/__pycache__/
+backend/test_gemini.py
+backend/output.txt
+node_modules/
+frontend/dist/
+setup.py
+*.pyc
