@@ -1,5 +1,5 @@
 export default function RoadmapView({ roadmap, topic, videos }) {
-  const lines = roadmap.split("\n")
+  const lines = (roadmap || "").split("\n")
   return (
     <div className="roadmap-view">
       <div className="roadmap-header">
