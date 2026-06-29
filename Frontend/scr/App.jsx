@@ -11,7 +11,7 @@ export default function App() {
   const [roadmap, setRoadmap] = useState("")
   const [loading, setLoading] = useState(false)
   const [loadingMsg, setLoadingMsg] = useState("")
-  const API = "https://your-railway-url.up.railway.app/api"
+  const API = "https://youtube-learning-app-production-f3f9.up.railway.app"
   async function handleStart(userTopic) {
     setTopic(userTopic); setLoading(true)
     try {
