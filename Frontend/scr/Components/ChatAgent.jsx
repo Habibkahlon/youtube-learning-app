@@ -13,7 +13,7 @@ export default function ChatAgent({ topic, roadmap, transcripts, videos, onBack 
     setMessages(prev => [...prev, { role: "user", content: userMsg }])
     setLoading(true)
     try {
-      const r = await fetch("http://localhost:8000/api/gemini/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ topic, roadmap, transcripts, history: messages, message: userMsg }) })
+      const r = awaitfetch("https://youtube-learning-app-production-f3f9.up.railway.app/api/gemini/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ topic, roadmap, transcripts, history: messages, message: userMsg }) })
       const d = await r.json()
       setMessages(prev => [...prev, { role: "assistant", content: d.reply }])
     } catch { setMessages(prev => [...prev, { role: "assistant", content: "Sorry, something went wrong." }]) }
