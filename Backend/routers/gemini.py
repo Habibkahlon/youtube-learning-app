@@ -149,5 +149,7 @@ Answer based on the roadmap and transcripts. Cite phases and videos when relevan
         )
         return {"reply": response.choices[0].message.content}
 
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
