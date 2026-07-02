@@ -1,6 +1,6 @@
 import os, httpx
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -9,8 +9,16 @@ YT_KEY = os.getenv('YOUTUBE_API_KEY')
 YT_API = 'https://www.googleapis.com/youtube/v3'
 
 class TopicRequest(BaseModel):
-    topic: str
-    max_results: int = 30
+   topic: str = Field(min_length=2, max_length=150)
+    max_results: int = Field(default=30, ge=1, le=50)
+
+    @field_validator("topic")
+    @classmethod
+    def clean_topic(cls, v):
+        v = v.strip()
+        if not v:
+            raise ValueError("Topic cannot be empty")
+        return v
 
 def build_queries(topic):
     return [
