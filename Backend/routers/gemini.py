@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
 from fastapi import APIRouter, HTTPException, Request
-from slowapi import Limiter
+from limiter import limiter
 from slowapi.util import get_remote_address
 limiter = Limiter(key_func=get_remote_address)
 from pydantic import BaseModel
