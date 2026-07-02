@@ -6,9 +6,7 @@ from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from routers import youtube, transcripts, gemini
 
-limiter = Limiter(key_func=get_remote_address)
 
-app = FastAPI(title='YouTube Learning App')
 app = FastAPI(title='YouTube Learning App')
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
