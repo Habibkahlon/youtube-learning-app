@@ -2,14 +2,13 @@ import os, httpx
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field, field_validator
 from dotenv import load_dotenv
-
 load_dotenv()
 router = APIRouter()
 YT_KEY = os.getenv('YOUTUBE_API_KEY')
 YT_API = 'https://www.googleapis.com/youtube/v3'
 
 class TopicRequest(BaseModel):
-   topic: str = Field(min_length=2, max_length=150)
+    topic: str = Field(min_length=2, max_length=150)
     max_results: int = Field(default=30, ge=1, le=50)
 
     @field_validator("topic")
@@ -61,7 +60,9 @@ async def search_youtube(req: TopicRequest):
             views = int(stats.get('viewCount', 0))
             if views < 5000:
                 continue
-            candidates.append({'id':v['id'],'title':v['snippet']['title'],'channel':v['snippet']['channelTitle'],'description':v['snippet']['description'][:300],'views':views,'thumbnail':v['snippet']['thumbnails']['medium']['url'],'published':v['snippet']['publishedAt'][:10]})
+            candidates.append({'id':v['id'],'title':v['snippet']['title'],'channel':v['snippet']['channelTitle'],
+                               'description':v['snippet']['description'][:300],'views':views,
+                               'thumbnail':v['snippet']['thumbnails']['medium']['url'],'published':v['snippet']['publishedAt'][:10]})
         candidates.sort(key=lambda x: x['views'], reverse=True)
         return {'videos': candidates[:20], 'topic': req.topic}
     except Exception as e:
