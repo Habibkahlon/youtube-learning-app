@@ -1,5 +1,8 @@
 import os, httpx
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+limiter = Limiter(key_func=get_remote_address)
 from pydantic import BaseModel, Field, field_validator
 from dotenv import load_dotenv
 load_dotenv()
@@ -42,7 +45,8 @@ async def get_video_details(video_ids):
         return r.json().get('items', [])
 
 @router.post('/search')
-async def search_youtube(req: TopicRequest):
+@limiter.limit("10/minute")
+async def search_youtube(request: Request, req: TopicRequest):
     try:
         queries = build_queries(req.topic)
         all_items, seen = [], set()
