@@ -1,6 +1,9 @@
 import os
 from openai import OpenAI
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+limiter = Limiter(key_func=get_remote_address)
 from pydantic import BaseModel
 from dotenv import load_dotenv
 load_dotenv()
@@ -37,7 +40,8 @@ def build_context(transcripts, videos):
     return "\n".join(ctx)
 
 @router.post("/roadmap")
-async def generate_roadmap(req: RoadmapRequest):
+@limiter.limit("10/minute")
+async def generate_roadmap(request: Request, req: RoadmapRequest):
     try:
         context = build_context(req.transcripts, req.videos)
         if not context:
