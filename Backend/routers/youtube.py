@@ -1,10 +1,9 @@
 import os, httpx
 from fastapi import APIRouter, HTTPException, Request
 from limiter import limiter
-from slowapi.util import get_remote_address
-limiter = Limiter(key_func=get_remote_address)
 from pydantic import BaseModel, Field, field_validator
 from dotenv import load_dotenv
+
 load_dotenv()
 router = APIRouter()
 YT_KEY = os.getenv('YOUTUBE_API_KEY')
@@ -64,9 +63,15 @@ async def search_youtube(request: Request, req: TopicRequest):
             views = int(stats.get('viewCount', 0))
             if views < 5000:
                 continue
-            candidates.append({'id':v['id'],'title':v['snippet']['title'],'channel':v['snippet']['channelTitle'],
-                               'description':v['snippet']['description'][:300],'views':views,
-                               'thumbnail':v['snippet']['thumbnails']['medium']['url'],'published':v['snippet']['publishedAt'][:10]})
+            candidates.append({
+                'id': v['id'],
+                'title': v['snippet']['title'],
+                'channel': v['snippet']['channelTitle'],
+                'description': v['snippet']['description'][:300],
+                'views': views,
+                'thumbnail': v['snippet']['thumbnails']['medium']['url'],
+                'published': v['snippet']['publishedAt'][:10],
+            })
         candidates.sort(key=lambda x: x['views'], reverse=True)
         return {'videos': candidates[:20], 'topic': req.topic}
     except Exception as e:
