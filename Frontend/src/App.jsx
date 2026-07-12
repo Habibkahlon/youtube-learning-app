@@ -6,6 +6,7 @@ import "./App.css"
 import { useAuth } from './useAuth'
 import AuthButton from './components/AuthButton'
 export default function App() {
+  const { user, loading: authLoading } = useAuth()
   const [stage, setStage] = useState("input")
   const [topic, setTopic] = useState("")
   const [videos, setVideos] = useState([])
@@ -50,6 +51,7 @@ export default function App() {
   }
   return (
     <div className="app">
+      <AuthButton user={user} />
       {loading && <div className="loading-overlay"><div className="spinner" /><p>{loadingMsg}</p></div>}
       {stage === "input" && <TopicInput onStart={handleStart} />}
       {stage === "roadmap" && (
