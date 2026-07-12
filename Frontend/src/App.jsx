@@ -5,8 +5,10 @@ import ChatAgent from "./components/ChatAgent"
 import "./App.css"
 import { useAuth } from './useAuth'
 import AuthButton from './components/AuthButton'
+import SignInModal from './components/SignInModal'
 export default function App() {
   const { user, loading: authLoading } = useAuth()
+  const [showSignIn, setShowSignIn] = useState(false)
   const [stage, setStage] = useState("input")
   const [topic, setTopic] = useState("")
   const [videos, setVideos] = useState([])
@@ -44,6 +46,7 @@ export default function App() {
       const d3 = await r3.json()
       if (!d3.roadmap) throw new Error("The roadmap came back empty. Please try again.")
       setRoadmap(d3.roadmap); setStage("roadmap")
+      if (!user) setTimeout(() => setShowSignIn(true), 1200)
     } catch (e) {
       alert(e.message)
     }
@@ -51,7 +54,13 @@ export default function App() {
   }
   return (
     <div className="app">
-      <AuthButton user={user} />
+     <header className="app-header">
+        <AuthButton user={user} />
+      </header>
+
+      {showSignIn && !user && (
+        <SignInModal topic={topic} onDismiss={() => setShowSignIn(false)} />
+      )}
       {loading && <div className="loading-overlay"><div className="spinner" /><p>{loadingMsg}</p></div>}
       {stage === "input" && <TopicInput onStart={handleStart} />}
       {stage === "roadmap" && (
