@@ -61,3 +61,184 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .chat-input:focus { border-color: #7c6ff7; }
 .send-btn { padding: 11px 20px; background: #7c6ff7; color: #fff; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
 .send-btn:hover { background: #6a5ee0; }
+/* ---- Auth: tokens ---- */
+:root {
+  --ink: #0B0B12;
+  --surface: #15151F;
+  --line: rgba(255, 255, 255, 0.08);
+  --violet: #7C5CFF;
+  --teal: #5EEAD4;
+  --text: #E8E8F0;
+  --muted: #8B8BA0;
+}
+
+/* ---- Header ---- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---- Google button ---- */
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.btn-google:hover {
+  background: #1C1C29;
+  border-color: rgba(124, 92, 255, 0.5);
+}
+.btn-google:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+.google-mark { width: 16px; height: 16px; flex: none; }
+
+.btn-google-lg {
+  width: 100%;
+  justify-content: center;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #1F1F1F;
+  border-color: transparent;
+}
+.btn-google-lg:hover { background: #F1F1F4; border-color: transparent; }
+
+/* ---- Signed-in state ---- */
+.auth-user { display: flex; align-items: center; gap: 10px; }
+.auth-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+}
+.auth-avatar-fallback {
+  display: grid; place-items: center;
+  background: var(--violet);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.auth-name {
+  font-size: 0.875rem;
+  color: var(--text);
+}
+.auth-signout {
+  font: inherit;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+.auth-signout:hover { color: var(--text); }
+
+/* ---- Modal ---- */
+.modal-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(6, 6, 10, 0.72);
+  backdrop-filter: blur(6px);
+  animation: scrim-in 0.2s ease-out;
+}
+.modal {
+  width: 100%;
+  max-width: 400px;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  animation: modal-in 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-preview {
+  position: relative;
+  padding: 16px;
+  margin-bottom: 22px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(124, 92, 255, 0.10), transparent);
+}
+.modal-badge {
+  position: absolute;
+  top: 12px; right: 12px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 8px;
+}
+.modal-preview-label {
+  margin: 0 0 4px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.modal-preview-topic {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--teal);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal-title {
+  margin: 0 0 8px;
+  font-size: 1.375rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.modal-body {
+  margin: 0 0 22px;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.modal-dismiss {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.modal-dismiss:hover { color: var(--text); }
+
+@keyframes scrim-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.98) }
+  to   { opacity: 1; transform: none }
+}
+@media (prefers-reduced-motion: reduce) {
+  .modal-scrim, .modal { animation: none }
+}
