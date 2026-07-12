@@ -3,6 +3,8 @@ import TopicInput from "./components/TopicInput"
 import RoadmapView from "./components/RoadmapView"
 import ChatAgent from "./components/ChatAgent"
 import "./App.css"
+import { useAuth } from './useAuth'
+import AuthButton from './components/AuthButton'
 export default function App() {
   const [stage, setStage] = useState("input")
   const [topic, setTopic] = useState("")
